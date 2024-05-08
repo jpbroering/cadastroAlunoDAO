@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import model.Aluno;
 
 public class AlunoDAO {
@@ -18,7 +19,7 @@ public class AlunoDAO {
         try {
             Statement stmt = this.getConexao().createStatement();
 
-            ResultSet res = stmt.executeQuery("SELECT * FROM tb_alunos");
+            ResultSet res = stmt.executeQuery("SELECT * FROM alunos_tb");
             while (res.next()) {
                 int id = res.getInt("id");
                 String nome = res.getString("nome");
@@ -32,7 +33,7 @@ public class AlunoDAO {
             stmt.close();
 
         } catch (SQLException e) {
-
+            JOptionPane.showMessageDialog(null, e);
         }
         return minhalista;
     }
@@ -48,10 +49,10 @@ public class AlunoDAO {
             Class.forName(driver);
 
             String server = "localhost";
-            String database = "db_alunos";
+            String database = "alunos_bd";
             String url = "jdbc:mysql://" + server + ":3306/" + database + "?useTimezone=true&serverTimezone=UTC";
             String user = "root";
-            String password = "Unisul@1520";
+            String password = "P@n13062006";
 
             connection = DriverManager.getConnection(url, user, password);
 
@@ -71,7 +72,7 @@ public class AlunoDAO {
     }
 
     public boolean insertAlunoBD(Aluno objeto) {
-        String sql = "INSERT INTO tb_alunos(id,nome,idade,curso,fase) VALUES(?,?,?,?,?)";
+        String sql = "INSERT INTO alunos_tb(id,nome,idade,curso,fase) VALUES(?,?,?,?,?)";
         try {
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
             stmt.setInt(1, objeto.getId());
@@ -92,7 +93,7 @@ public class AlunoDAO {
     public boolean deleteAlunoBD(int id) {
         try {
             Statement stmt = this.getConexao().createStatement();
-            stmt.executeUpdate("DELETE FROM tb_alunos WHERE id = " + id);
+            stmt.executeUpdate("DELETE FROM alunos_tb WHERE id = " + id);
             stmt.close();
         } catch (SQLException erro) {
             System.out.println("Erro: " + erro);
@@ -100,7 +101,7 @@ public class AlunoDAO {
         return true;
     }
     public boolean updateAlunoBD(Aluno objeto){
-        String sql = "UPDATE tb_alunos set nome = ? ,idade = ? ,curso = ? ,fase =? WHERE id = ?";
+        String sql = "UPDATE alunos_tb set nome = ? ,idade = ? ,curso = ? ,fase =? WHERE id = ?";
         
         try{
             PreparedStatement stmt = this.getConexao().prepareStatement(sql);
@@ -125,7 +126,7 @@ public class AlunoDAO {
         int maiorID = 0;
         try{
             Statement stmt = this.getConexao().createStatement();
-            ResultSet res = stmt.executeQuery("SELECT MAX(id) id FROM tb_alunos");
+            ResultSet res = stmt.executeQuery("SELECT MAX(id) id FROM alunos_tb");
             res.next();
             maiorID = res.getInt("id");
             stmt.close();
@@ -140,7 +141,7 @@ public class AlunoDAO {
         try{
             Statement stmt = this.getConexao().createStatement();
             
-            ResultSet res = stmt.executeQuery("SELECT * FROM tb_aluno WHERE id = "+id);
+            ResultSet res = stmt.executeQuery("SELECT * FROM alunos_tb WHERE id = "+id);
             res.next();
             
             objeto.setNome(res.getString("nome"));
