@@ -52,7 +52,7 @@ public class AlunoDAO {
             String database = "alunos_bd";
             String url = "jdbc:mysql://" + server + ":3306/" + database + "?useTimezone=true&serverTimezone=UTC";
             String user = "root";
-            String password = "P@n13062006";
+            String password = "Unisul@1520";
 
             connection = DriverManager.getConnection(url, user, password);
 
